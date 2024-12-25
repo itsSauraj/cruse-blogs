@@ -1,13 +1,36 @@
-import { title } from "@/components/primitives";
-import DefaultLayout from "@/layouts/default";
+import Head from "next/head";
 
-export default function DocsPage() {
+import DefaultLayout from "@/layouts/default";
+import BlogListCard from "@/components/blogs/card";
+import { getBlogsList } from "@/pages/api/blogs";
+
+export async function getStaticProps() {
+  const blogs = await getBlogsList();
+
+  return {
+    props: {
+      blogs,
+    },
+  };
+}
+
+export default function BlogsPage({ blogs }: any) {
   return (
     <DefaultLayout>
+      <Head>
+        <title>Cruse Blogs</title>
+        <meta
+          content="Read blogs that form all over the world" 
+          name="description"
+        />
+      </Head>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <div className="inline-block max-w-lg text-center justify-center">
-          <h1 className={title()}>Blog</h1>
-        </div>
+        {
+          // @ts-ignore
+          blogs.map((blog) => (
+            <BlogListCard key={blog.id} blog={blog} />
+          ))
+        }
       </section>
     </DefaultLayout>
   );

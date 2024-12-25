@@ -16,11 +16,25 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   classNames,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-
   const { theme, setTheme } = useTheme();
 
   const onChange = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
+    const newTheme = theme === "light" ? "dark" : "light";
+
+    setTheme(newTheme);
+
+    if (typeof window !== "undefined") {
+      // Access the document safely on the client
+      const htmlElement = document.documentElement;
+
+      if (newTheme === "dark") {
+        htmlElement.classList.add("dark");
+        htmlElement.classList.remove("light");
+      } else {
+        htmlElement.classList.add("light");
+        htmlElement.classList.remove("dark");
+      }
+    }
   };
 
   const {
@@ -37,7 +51,20 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
 
   useEffect(() => {
     setIsMounted(true);
-  }, [isMounted]);
+
+    if (typeof window !== "undefined") {
+      // Ensure the class is set based on the initial theme
+      const htmlElement = document.documentElement;
+
+      if (theme === "dark") {
+        htmlElement.classList.add("dark");
+        htmlElement.classList.remove("light");
+      } else {
+        htmlElement.classList.add("light");
+        htmlElement.classList.remove("dark");
+      }
+    }
+  }, [theme]);
 
   // Prevent Hydration Mismatch
   if (!isMounted) return <div className="w-6 h-6" />;

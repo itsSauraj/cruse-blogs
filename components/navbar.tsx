@@ -36,7 +36,6 @@ const SearchInput = () => {
     };
   }, []);
 
-
   return (
     <Input
       ref={ref}
@@ -61,7 +60,6 @@ const SearchInput = () => {
 };
 
 export const Navbar = () => {
-
   const { pathname } = useRouter();
 
   return (
