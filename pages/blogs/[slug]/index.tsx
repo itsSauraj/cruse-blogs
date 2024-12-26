@@ -9,10 +9,11 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import Head from "next/head";
 
-import styledComponents from "./customStyles";
-
+import styledComponents from "@/components/blogs/customStyles";
+import HeadingTree from "@/components/blogs/headingTree";
 import DefaultLayout from "@/layouts/default";
 import { getBlogsList } from "@/pages/api/blogs";
+import { extractHeadings } from "@/utils/functions";
 
 export async function getStaticPaths() {
   const blogs = await getBlogsList();
@@ -45,6 +46,12 @@ const BlogPage = ({ blogs }: { blogs: CruseTypes.BlogTypes[] }) => {
     (blog: CruseTypes.BlogTypes) => blog.slug === blog_slug,
   );
 
+  if (!blog) {
+    return null;
+  }
+
+  const headings = extractHeadings(blog?.content);
+
   return (
     <DefaultLayout>
       <Head>
@@ -69,7 +76,7 @@ const BlogPage = ({ blogs }: { blogs: CruseTypes.BlogTypes[] }) => {
         />
         <Divider />
         <div className="flex gap-4 relative">
-          <section className="flex flex-col gap-[12px] bg-gray-100 p-10 rounded-lg dark:bg-gray-800">
+          <section className="flex flex-grow flex-col gap-[12px] bg-gray-100 p-10 rounded-lg dark:bg-gray-800">
             <Markdown
               components={styledComponents}
               rehypePlugins={[remarkParse, rehypeRaw, remarkRehype]}
@@ -79,8 +86,9 @@ const BlogPage = ({ blogs }: { blogs: CruseTypes.BlogTypes[] }) => {
               {blog?.content}
             </Markdown>
           </section>
-          <div className="hidden lg:block sticky top-0 right-0 h-[100svh] overflow-y-scroll overflow-x-hidden w-[320px] gap-[12px] bg-gray-100 p-10 rounded-lg dark:bg-gray-800">
+          <div className="hidden lg:block sticky top-0 right-0 h-[100svh] overflow-y-scroll overflow-x-hidden gap-[12px] bg-gray-100 p-10 rounded-lg dark:bg-gray-800 w-[400px]">
             <h3 className="text-xl font-bold">Table of contents</h3>
+            <HeadingTree headings={headings} />
           </div>
         </div>
       </div>

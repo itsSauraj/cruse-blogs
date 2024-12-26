@@ -25,9 +25,11 @@
 		"react-syntax-highlighter": "^15.6.1",
 		"rehype-highlight": "^7.0.1",
 		"rehype-raw": "^7.0.0",
+		"remark": "^15.0.1",
 		"remark-gfm": "^4.0.0",
 		"remark-parse": "^11.0.0",
-		"slugify": "^1.6.6"
+		"slugify": "^1.6.6",
+		"unified": "^11.0.5"
 	},
 	"devDependencies": {
 		"@types/node": "20.5.7",
