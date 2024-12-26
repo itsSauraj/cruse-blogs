@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { User } from "@nextui-org/user";
 import { Divider } from "@nextui-org/divider";
@@ -18,36 +19,51 @@ import { extractHeadings } from "@/utils/functions";
 export async function getStaticPaths() {
   const blogs = await getBlogsList();
 
-  const paths = blogs.map((blog: CruseTypes.BlogTypes) => ({
+  const paths = blogs.map((blog) => ({
     params: { slug: blog.slug },
   }));
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
-export async function getStaticProps() {
+export async function getStaticProps({ params }: { params: { slug: string } }) {
   const blogs = await getBlogsList();
+
+  const blog = blogs.find((b) => b.slug === params.slug);
+
+  if (!blog) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      blogs,
+      blog,
     },
   };
 }
 
-const BlogPage = ({ blogs }: { blogs: CruseTypes.BlogTypes[] }) => {
+const BlogPage = ({ blog }: { blog: CruseTypes.BlogTypes }) => {
   const router = useRouter();
-  const blog_slug = router.query.slug;
 
-  const blog = blogs.find(
-    (blog: CruseTypes.BlogTypes) => blog.slug === blog_slug,
-  );
+  useEffect(() => {
+    if (router.asPath.includes("#")) {
+      const hash = window.location.hash;
 
-  if (!blog) {
-    return null;
+      if (hash) {
+        const element = document.querySelector(hash);
+
+        element?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [router.asPath]);
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
   }
 
   const headings = extractHeadings(blog?.content);

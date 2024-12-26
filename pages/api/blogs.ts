@@ -3,14 +3,14 @@ import fs from "fs";
 
 import matter from "gray-matter";
 
-export const getFiles = () => {
+export const getFiles = (): string[] => {
   const directoryPath = path.join(process.cwd(), "blog");
   const files = fs.readdirSync(directoryPath);
 
   return files;
 };
 
-export const getBlogsList = (): any => {
+export const getBlogsList = (): CruseTypes.BlogTypes[] => {
   const files = getFiles();
   const blogs: any = files.map((file) => {
     const filePath = path.join(process.cwd(), "blog", file);
