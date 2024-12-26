@@ -17,7 +17,7 @@ export default function BlogListCard({ blog }: BlogsPageProps) {
   const blogPath = `/blogs/${blog.slug}`;
 
   return (
-    <Card className="w-[900px]">
+    <Card className="max-w-[900px]">
       <CardHeader className="flex gap-3">
         <Image
           alt="nextui logo"

@@ -22,17 +22,26 @@ const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDownSearch = (event: globalThis.KeyboardEvent) => {
       if (event.ctrlKey && event.key === "k") {
         event.preventDefault();
         ref.current?.focus();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    const handleKeyDownEsc = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        ref.current?.blur();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDownSearch);
+    window.addEventListener("keydown", handleKeyDownEsc);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDownSearch);
+      window.removeEventListener("keydown", handleKeyDownEsc);
     };
   }, []);
 

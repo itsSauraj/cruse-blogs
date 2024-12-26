@@ -9,23 +9,64 @@
   date: "2024-12-12"
 ---
 
-# This is a demo blog for the users
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Main Content](#main-content)
-3. [Conclusion](#conclusion)
+Inline python code ```print("Hello Wordl")```
+Inline python code [```google```](https://google.com)
 
-## Introduction
-Welcome to this demo blog. This section introduces the topic and provides an overview of what will be covered.
 
-## Main Content
-Here is where the main content of the blog goes. You can include various sections, images, code snippets, and more.
+Block code python
 
-## Conclusion
-Summarize the key points discussed in the blog and provide any final thoughts or takeaways.
-## Images
-Here are some images to illustrate the content discussed in this blog:
+```python
+import * from earth
+print("I am block code")
+```
 
-![Demo Image 1](https://nextui.org/images/hero-card-complete.jpeg) ![Demo Image 2](https://nextui.org/images/hero-card-complete.jpeg)
+```css
+body {
+  backgroud: black;
+}
 
-Feel free to replace these placeholder images with actual images relevant to your content.
+```
+
+## Demo Data for README
+
+Here is some demo data that you can use for your README file:
+
+### Installation
+
+To install the necessary dependencies, run the following command:
+
+```bash
+npm install
+```
+
+### Usage
+
+To start the development server, run:
+
+```bash
+npm run dev
+```
+
+### Building for Production
+
+To build the project for production, use:
+
+```bash
+npm run build
+```
+
+### Running Tests
+
+To run tests, use:
+
+```bash
+npm test
+```
+
+### Contributing
+
+If you would like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+### License
+
+This project is licensed under the MIT License.

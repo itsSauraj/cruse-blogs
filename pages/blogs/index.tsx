@@ -20,7 +20,7 @@ export default function BlogsPage({ blogs }: any) {
       <Head>
         <title>Cruse Blogs</title>
         <meta
-          content="Read blogs that form all over the world" 
+          content="Read blogs that form all over the world"
           name="description"
         />
       </Head>

@@ -4,6 +4,9 @@ import { Divider } from "@nextui-org/divider";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
 import Head from "next/head";
 
 import styledComponents from "./customStyles";
@@ -49,6 +52,9 @@ const BlogPage = ({ blogs }: { blogs: CruseTypes.BlogTypes[] }) => {
         <meta content={blog?.summary} name="description" />
       </Head>
       <div className="flex flex-col gap-5">
+        <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold uppercase">
+          {blog?.title}
+        </h1>
         <User
           avatarProps={{
             src: "https://i.pravatar.cc/300",
@@ -62,11 +68,21 @@ const BlogPage = ({ blogs }: { blogs: CruseTypes.BlogTypes[] }) => {
           }
         />
         <Divider />
-        <section className="flex flex-col gap-1 bg-gray-100 p-5 rounded-lg dark:bg-gray-800">
-          <Markdown components={styledComponents} rehypePlugins={[rehypeRaw]}>
-            {blog?.content}
-          </Markdown>
-        </section>
+        <div className="flex gap-4 relative">
+          <section className="flex flex-col gap-[12px] bg-gray-100 p-10 rounded-lg dark:bg-gray-800">
+            <Markdown
+              components={styledComponents}
+              rehypePlugins={[remarkParse, rehypeRaw, remarkRehype]}
+              remarkPlugins={[remarkGfm]}
+              remarkRehypeOptions={{ passThrough: ["link"] }}
+            >
+              {blog?.content}
+            </Markdown>
+          </section>
+          <div className="hidden lg:block sticky top-0 right-0 h-[100svh] overflow-y-scroll overflow-x-hidden w-[320px] gap-[12px] bg-gray-100 p-10 rounded-lg dark:bg-gray-800">
+            <h3 className="text-xl font-bold">Table of contents</h3>
+          </div>
+        </div>
       </div>
     </DefaultLayout>
   );
