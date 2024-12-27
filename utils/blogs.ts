@@ -3,6 +3,7 @@ import fs from "fs";
 
 import matter from "gray-matter";
 
+//TODO: fetch from database
 export const getFiles = (): string[] => {
   const directoryPath = path.join(process.cwd(), "blog");
   const files = fs.readdirSync(directoryPath);
@@ -10,6 +11,7 @@ export const getFiles = (): string[] => {
   return files;
 };
 
+//TODO: fetch from database
 export const getBlogsList = (): CruseTypes.BlogTypes[] => {
   const files = getFiles();
   const blogs: any = files.map((file) => {

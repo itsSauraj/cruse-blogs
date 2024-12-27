@@ -2,7 +2,8 @@ import Head from "next/head";
 
 import DefaultLayout from "@/layouts/default";
 import BlogListCard from "@/components/blogs/card";
-import { getBlogsList } from "@/pages/api/blogs";
+import { getBlogsList } from "@/utils/blogs";
+import JoinAlert from "@/components/alert";
 
 export async function getStaticProps() {
   const blogs = await getBlogsList();
@@ -24,6 +25,7 @@ export default function BlogsPage({ blogs }: any) {
           name="description"
         />
       </Head>
+      <JoinAlert />
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         {
           // @ts-ignore

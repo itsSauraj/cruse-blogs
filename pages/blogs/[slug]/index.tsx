@@ -13,7 +13,7 @@ import Head from "next/head";
 import styledComponents from "@/components/blogs/customStyles";
 import HeadingTree from "@/components/blogs/headingTree";
 import DefaultLayout from "@/layouts/default";
-import { getBlogsList } from "@/pages/api/blogs";
+import { getBlogsList } from "@/utils/blogs";
 import { extractHeadings } from "@/utils/functions";
 
 export async function getStaticPaths() {
@@ -32,7 +32,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: { params: { slug: string } }) {
   const blogs = await getBlogsList();
 
-  const blog = blogs.find((b) => b.slug === params.slug);
+  const blog = blogs.find((b) => b.slug === params.slug); //TODO: fetch from database
 
   if (!blog) {
     return {

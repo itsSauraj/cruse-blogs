@@ -64,3 +64,14 @@ export const extractHeadings = (markdown: string): Heading[] => {
 
   return rootHeadings;
 };
+
+export function logoutUserHandeler() {
+  fetch("/api/v1/auth/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(() => {
+    window.location.href = "/";
+  });
+}

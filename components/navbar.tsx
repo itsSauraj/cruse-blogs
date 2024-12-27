@@ -11,12 +11,14 @@ import {
 import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { Button } from "@nextui-org/react";
+import NextLink from "next/link";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon, Logo } from "@/components/icons";
+import { logoutUserHandeler } from "@/utils/functions";
 
 const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -101,12 +103,24 @@ export const Navbar = () => {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden lg:flex">
-          <SearchInput />
-        </NavbarItem>
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
         </NavbarItem>
+        <NavbarItem className="hidden lg:flex">
+          <SearchInput />
+        </NavbarItem>
+        {!(pathname.startsWith("/auth") || pathname.includes("dashboard")) && (
+          <NavbarItem className="hidden sm:flex gap-2">
+            <Button
+              as={Link}
+              color="primary"
+              href="/auth/signin"
+              variant="flat"
+            >
+              Sign In
+            </Button>
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       <NavbarContent className="sm:hidden  basis-1 pl-4" justify="end">
@@ -119,19 +133,27 @@ export const Navbar = () => {
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  item.label.toLowerCase() === "logout"
-                    ? "danger"
-                    : pathname === item.href || pathname.startsWith(item.href)
+              {item.label.toLowerCase() === "logout" ? (
+                <Link
+                  className="cursor-pointer"
+                  color="danger"
+                  onPress={logoutUserHandeler}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  color={
+                    pathname === item.href || pathname.startsWith(item.href)
                       ? "primary"
                       : "foreground"
-                }
-                href={item.href}
-                size="lg"
-              >
-                {item.label}
-              </Link>
+                  }
+                  href={item.href}
+                  size="lg"
+                >
+                  {item.label}
+                </Link>
+              )}
             </NavbarMenuItem>
           ))}
         </div>
