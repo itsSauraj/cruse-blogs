@@ -1,5 +1,4 @@
-import { UUID } from "crypto";
-
+import mongoose from "mongoose";
 import { SVGProps } from "react";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
@@ -8,7 +7,7 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 
 declare global {
   namespace MongooseDataBase {
-    interface BaseModel {
+    interface BaseModel extends mongoose.Document {
       created_at: date;
       updated_at: date;
       deleted_at: date;
@@ -19,6 +18,10 @@ declare global {
       email: string;
       password: string;
       avatar?: string;
+      correctPassword: (
+        candidatePassword: string,
+        userPassword: string,
+      ) => boolean;
     }
   }
 }
