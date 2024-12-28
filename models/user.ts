@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 import baseModal from "./baseModel";
 
-import { constructLoginErrors, hashPassword } from "@/utils/authUtils";
+import { hashPassword } from "@/utils/authUtils";
 
 const UserSchema = new mongoose.Schema<MongooseDataBase.User>({
   ...baseModal,
@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema<MongooseDataBase.User>({
   avatar: {
     type: String,
     default: "https://i.pravatar.cc/300",
+  },
+  verified: {
+    type: Boolean,
+    default: true,
   },
 });
 

@@ -18,6 +18,7 @@ declare global {
       email: string;
       password: string;
       avatar?: string;
+      verified: boolean;
       correctPassword: (
         candidatePassword: string,
         userPassword: string,

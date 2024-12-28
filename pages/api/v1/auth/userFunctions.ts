@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { createUser, getUserByEmail } from "@/lib/db";
-import { correctPassword } from "@/models/user";
 
-const AuthenticateUser = async (
+export const AuthenticateUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
   userData: UserTypes.UserAuth,
@@ -16,6 +15,10 @@ const AuthenticateUser = async (
 
     if (!user) {
       return res.status(400).json({ email: "User not found" });
+    }
+
+    if (!user.verified) {
+      return res.status(400).json({ email: "User not verified" });
     }
 
     if (!user.correctPassword(password, user.password)) {
@@ -35,7 +38,13 @@ const AuthenticateUser = async (
   }
 };
 
-const CreateUser = async (userData: UserTypes.SignUpUserAuth) => {
+export const UserExists = async (email: string) => {
+  const user = await getUserByEmail(email);
+
+  return user;
+}
+
+export const CreateUser = async (userData: UserTypes.SignUpUserAuth) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password1, password2, ...rest } = userData;
 
@@ -51,4 +60,3 @@ const CreateUser = async (userData: UserTypes.SignUpUserAuth) => {
   return user["_doc"] as MongooseDataBase.User;
 };
 
-export { getUserByEmail, AuthenticateUser, CreateUser };

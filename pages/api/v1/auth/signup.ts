@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { CreateUser } from "./userFunctions";
+import { UserExists, CreateUser } from "./userFunctions";
 
 import { constructSignupErrors } from "@/utils/authUtils";
 import { validateSignup } from "@/utils/valdator";
@@ -14,7 +14,16 @@ async function signUpApiFunction(req: NextApiRequest, res: NextApiResponse) {
         .status(400)
         .json({ ...constructSignupErrors(validate.error), data: req.body });
     }
+
+    if (await UserExists(validate.value.email)) {
+      return res
+        .status(400)
+        .json({ email: "Account with this email already exists" });
+    }
+
     const user = await CreateUser(validate.value);
+
+    //TODO: implement email/account verification here
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, created_at, deleted_at, updated_at, __v, ...rest } =
