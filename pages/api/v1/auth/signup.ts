@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { constructSignupErrors } from "./utils";
 import { CreateUser } from "./userFunctions";
 
+import { constructSignupErrors } from "@/utils/authUtils";
 import { validateSignup } from "@/utils/valdator";
 
 async function signUpApiFunction(req: NextApiRequest, res: NextApiResponse) {
@@ -16,7 +16,11 @@ async function signUpApiFunction(req: NextApiRequest, res: NextApiResponse) {
     }
     const user = await CreateUser(validate.value);
 
-    return res.status(200).json({ name: "John Doe" });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, created_at, deleted_at, updated_at, __v, ...rest } =
+      user as any;
+
+    return res.status(200).json({ ...rest });
   }
 
   res.setHeader("Allow", ["POST"]);

@@ -1,41 +1,7 @@
-import crypto, { UUID } from "crypto";
-
-import { v4 as uuidv4 } from "uuid";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { ReadUsersFromFile, WriteUserToFile } from "./fileFunciton";
-
-const getAllUsers = async () => {
-  // Read users from database instead of file
-  return await ReadUsersFromFile();
-};
-
-const getUserByEmail = async (email: string) => {
-  const users = await getAllUsers();
-
-  return users.find((user) => user.email === email);
-};
-
-const getUserById = async (id: string) => {
-  const users = await getAllUsers();
-
-  return users.find((user) => user.id === id);
-};
-
-const hashPassword = (password: string) => {
-  const secretKey = process.env.AUTH_SECRET as any;
-
-  const hash = crypto
-    .pbkdf2Sync(password, secretKey, 1000, 64, `sha512`)
-    .toString(`hex`);
-
-  return `dcr_${hash}`;
-};
-
-//TODO: NEXT AUTH - Implement NextAuth here
-const AddUserTOFile = async (user: UserTypes.DBUser) => {
-  await WriteUserToFile(user);
-};
+import { hashPassword } from "@/utils/authUtils";
+import { createUser, getUserByEmail } from "@/lib/db";
 
 const AuthenticateUser = async (
   req: NextApiRequest,
@@ -66,23 +32,16 @@ const CreateUser = async (userData: UserTypes.SignUpUserAuth) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password1, password2, ...rest } = userData;
 
-  const userForDB: UserTypes.DBUser = {
+  const userForDB: UserTypes.User & MongooseDataBase.User = {
     ...rest,
-    created_at: new Date().toISOString(),
-    id: uuidv4() as UUID,
     password: hashPassword(password1),
   };
 
   //TODO: DATABASE CALL OF NEXT AUTH - Implement NextAuth here
-  await AddUserTOFile(userForDB);
+  const user = await createUser(userForDB);
 
-  return userForDB;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return user["_doc"] as MongooseDataBase.User;
 };
 
-export {
-  getUserByEmail,
-  getUserById,
-  hashPassword,
-  AuthenticateUser,
-  CreateUser,
-};
+export { getUserByEmail, hashPassword, AuthenticateUser, CreateUser };

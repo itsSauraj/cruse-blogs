@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { constructLoginErrors } from "./utils";
 import { AuthenticateUser } from "./userFunctions";
 
+import { constructLoginErrors } from "@/utils/authUtils";
 import { validateSignin } from "@/utils/valdator";
 
 async function signInApiFunction(req: NextApiRequest, res: NextApiResponse) {

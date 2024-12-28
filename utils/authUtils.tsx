@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 import Joi from "joi";
 
 const constructErrors = (
@@ -55,4 +57,14 @@ const constructSignupErrors = (
   return constructErrors(errors, fields);
 };
 
-export { constructLoginErrors, constructSignupErrors };
+const hashPassword = (password: string) => {
+  const secretKey = process.env.AUTH_SECRET as any;
+
+  const hash = crypto
+    .pbkdf2Sync(password, secretKey, 1000, 64, `sha512`)
+    .toString(`hex`);
+
+  return `dcr_${hash}`;
+};
+
+export { constructLoginErrors, constructSignupErrors, hashPassword };
