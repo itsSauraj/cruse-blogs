@@ -21,12 +21,12 @@ export const AuthenticateUser = async (
       return res.status(400).json({ email: "User not verified" });
     }
 
-    if (!user.correctPassword(password, user.password)) {
+    if (!(await user.correctPassword(password, user.password))) {
       context.status = 400;
       context.response = { password: "Invalid credentials" };
     }
 
-    if (context.status) {
+    if (context.status) { 
       return res.status(context.status as number).json(context.response);
     }
 

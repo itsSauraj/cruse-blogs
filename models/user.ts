@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 import baseModal from "./baseModel";
 
@@ -43,16 +44,13 @@ UserSchema.pre(
   },
 );
 
-UserSchema.methods.correctPassword = (
+UserSchema.methods.correctPassword = async (
   candidatePassword: string,
   userPassword: string,
-) => {
+): Promise<boolean> => {
   if (!candidatePassword || !userPassword) return false;
-  const hash = hashPassword(candidatePassword);
 
-  if (hash !== userPassword) return false;
-
-  return true;
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 const User = mongoose.model("User", UserSchema);

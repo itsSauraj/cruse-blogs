@@ -22,7 +22,7 @@ declare global {
       correctPassword: (
         candidatePassword: string,
         userPassword: string,
-      ) => boolean;
+      ) => Promise<boolean>;
     }
   }
 }
