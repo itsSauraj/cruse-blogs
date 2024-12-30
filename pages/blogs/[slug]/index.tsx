@@ -83,7 +83,7 @@ const BlogPage = ({ blog }: { blog: CruseTypes.BlogTypes }) => {
         />
         <Divider />
         <div className="flex gap-4 relative">
-          <section className="flex flex-grow flex-col gap-[12px] bg-gray-100 p-10 rounded-lg dark:bg-gray-800">
+          <section className="flex flex-grow flex-col gap-[12px] bg-gray-100 p-3 md:p-6 lg:p-10 rounded-lg dark:bg-gray-800 max-w-full">
             <Markdown
               components={styledComponents}
               rehypePlugins={[remarkParse, rehypeRaw, remarkRehype]}

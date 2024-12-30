@@ -42,7 +42,7 @@ client/
 ...
 ```
 
-# Dependencies(tech-stacks)
+# Dependencies (tech-stacks)
 Here's a similar format for the updated dependencies:
 
 ### Dependencies (Tech Stacks)
@@ -79,7 +79,7 @@ My ```package.json```
 
 
 Please install MongoDB using this link
-[https://www.mongodb.com/docs/manual/installation/](https://www.mongodb.com/docs/manual/installation/).
+[Click me](https://www.mongodb.com/docs/manual/installation/).
 This is just a reference for installation. 
 Assuming the following, after installation is complete.
 

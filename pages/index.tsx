@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button } from "@nextui-org/button";
 import { Code } from "@nextui-org/code";
 import Link from "next/link";

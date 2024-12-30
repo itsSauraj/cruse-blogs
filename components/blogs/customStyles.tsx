@@ -1,13 +1,9 @@
 // @ts-ignore
 import { useState, useRef, useEffect } from "react";
+// import dynamic from "next/dynamic";
 import { Image } from "@nextui-org/react";
 import Link from "next/link";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-  oneDark as IDEDark,
-  oneLight as IDELight,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
-import coy from "react-syntax-highlighter/dist/esm/styles/prism/coy";
+import { Highlight, themes } from "prism-react-renderer";
 import { IoMdCopy } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
@@ -16,8 +12,13 @@ import { CiLight } from "react-icons/ci";
 
 import { copyToClipboard, generateSlug } from "@/utils/functions";
 
+// const SyntaxHighlighter = dynamic(() =>
+//   import("react-syntax-highlighter").then((mod) => mod.Prism),
+// );
+
 const styledComponents = {
   h1(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, ...rest } = props;
     const slug = generateSlug(props.children);
 
@@ -36,6 +37,7 @@ const styledComponents = {
     );
   },
   h2(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, ...rest } = props;
     const slug = generateSlug(props.children);
 
@@ -54,6 +56,7 @@ const styledComponents = {
     );
   },
   h3(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, ...rest } = props;
     const slug = generateSlug(props.children);
 
@@ -72,6 +75,7 @@ const styledComponents = {
     );
   },
   h4(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, ...rest } = props;
     const slug = generateSlug(props.children);
 
@@ -90,6 +94,7 @@ const styledComponents = {
     );
   },
   h5(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, ...rest } = props;
     const slug = generateSlug(props.children);
 
@@ -108,6 +113,7 @@ const styledComponents = {
     );
   },
   h6(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, ...rest } = props;
     const slug = generateSlug(props.children);
 
@@ -148,6 +154,7 @@ const styledComponents = {
                     />
                   );
                 });
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
               } catch (error) {
                 return (
                   <Image
@@ -230,15 +237,12 @@ const styledComponents = {
     );
   },
   code(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, inline, className, children, ...rest } = props;
     const match = /language-(\w+)/.exec(className || "");
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const codeReference = useRef<HTMLDivElement>(null);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [copied, setCopied] = useState(false);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [edit, setEdit] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [codeTheme, setCodeTheme] = useState<"dark" | "light">("dark");
     const [initialButtonClasses, setInitialClasses] =
@@ -256,10 +260,7 @@ const styledComponents = {
     }, [codeTheme]);
 
     function copyToClipboardHandler() {
-      const wrapper = codeReference.current;
-      const codeContainer = wrapper?.querySelector("code");
-
-      copyToClipboard(codeContainer?.textContent || "");
+      copyToClipboard(String(children).replace(/\n$/, "") || "");
       setCopied(true);
 
       setTimeout(() => {
@@ -267,38 +268,18 @@ const styledComponents = {
       }, 2000);
     }
 
-    function editHandler() {
-      setEdit((prev) => !prev);
-    }
-
     function codeThemeHandler() {
       setCodeTheme((prev) => (prev === "dark" ? "light" : "dark"));
     }
 
     return !inline && match ? (
-      <div ref={codeReference} className="relative">
+      <div className="relative">
         <div className="flex absolute top-2 right-2 gap-2">
           <button
             className={initialButtonClasses}
             onClick={copyToClipboardHandler}
           >
             {copied ? "Copied" : <IoMdCopy size={18} />}
-          </button>
-          <button
-            className={`${initialButtonClasses} ${edit ? "bg-yellow-300" : ""} 
-            `}
-            onClick={editHandler}
-          >
-            <FaEdit
-              className={
-                codeTheme === "light"
-                  ? edit
-                    ? "text-black"
-                    : "text-white"
-                  : "text-black"
-              }
-              size={16}
-            />
           </button>
           <button className={initialButtonClasses} onClick={codeThemeHandler}>
             {codeTheme === "dark" ? (
@@ -308,16 +289,26 @@ const styledComponents = {
             )}
           </button>
         </div>
-        {/* <SyntaxHighlighter
-          PreTag="div"
-          className="rounded-md p-5 dark:bg-gray-800"
+        <Highlight
+          code={String(children).replace(/\n$/, "")}
           language={match[1]}
-          style={codeTheme === "dark" ? IDEDark : IDELight}
-          {...rest}
-          contentEditable={edit}
+          theme={codeTheme === "dark" ? themes.oneDark : themes.oneLight}
         >
-          {String(children).replace(/\n$/, "")}
-        </SyntaxHighlighter> */}
+          {({ className, style, tokens, getLineProps, getTokenProps }) => (
+            <pre
+              className={`${className} rounded-lg p-4 max-w-[100%] overflow-x-scroll`}
+              style={style}
+            >
+              {tokens.map((line, i) => (
+                <div key={i} {...getLineProps({ line })} className="flex gap-2">
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token })} />
+                  ))}
+                </div>
+              ))}
+            </pre>
+          )}
+        </Highlight>
       </div>
     ) : (
       <code
@@ -331,6 +322,7 @@ const styledComponents = {
     );
   },
   table(props: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { node, ...rest } = props;
 
     return (
