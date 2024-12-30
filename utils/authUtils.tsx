@@ -56,8 +56,8 @@ const constructSignupErrors = (
   return constructErrors(errors, fields);
 };
 
-const hashPassword = (password: string) => {
-  const hash = bcrypt.hash(password, 14);
+const hashPassword = async (password: string) => {
+  const hash = await bcrypt.hash(password, 14);
 
   return hash;
 };

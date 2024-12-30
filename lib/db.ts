@@ -1,7 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 import UserModel from "@/models/user";
-import { connect } from "http2";
 
 const mongoUserNname = process.env.MONGO_USERNAME;
 const mongoPassword = process.env.MONGO_PASSWORD;
@@ -25,6 +24,6 @@ export const createUser = async (data: MongooseDataBase.User) => {
 
 export const getUserByEmail = async (email: string) => {
   const user = await UserModel.findOne({ email });
-  
+
   return user;
 };

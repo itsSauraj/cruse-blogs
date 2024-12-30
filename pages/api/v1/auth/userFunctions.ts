@@ -26,7 +26,7 @@ export const AuthenticateUser = async (
       context.response = { password: "Invalid credentials" };
     }
 
-    if (context.status) { 
+    if (context.status) {
       return res.status(context.status as number).json(context.response);
     }
 
@@ -42,13 +42,13 @@ export const UserExists = async (email: string) => {
   const user = await getUserByEmail(email);
 
   return user;
-}
+};
 
 export const CreateUser = async (userData: UserTypes.SignUpUserAuth) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password1, password2, ...rest } = userData;
 
-  const userForDB: UserTypes.User & MongooseDataBase.User = {
+  const userForDB: any = {
     ...rest,
     password: password1,
   };
@@ -57,6 +57,9 @@ export const CreateUser = async (userData: UserTypes.SignUpUserAuth) => {
   const user = await createUser(userForDB);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return user["_doc"] as MongooseDataBase.User;
-};
+  const { password, created_at, deleted_at, updated_at, __v, ...restCreated } =
+    user.toObject() as any;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return { ...restCreated } as MongooseDataBase.User;
+};

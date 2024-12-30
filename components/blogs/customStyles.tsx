@@ -7,6 +7,7 @@ import {
   oneDark as IDEDark,
   oneLight as IDELight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
+import coy from "react-syntax-highlighter/dist/esm/styles/prism/coy";
 import { IoMdCopy } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
@@ -307,7 +308,7 @@ const styledComponents = {
             )}
           </button>
         </div>
-        <SyntaxHighlighter
+        {/* <SyntaxHighlighter
           PreTag="div"
           className="rounded-md p-5 dark:bg-gray-800"
           language={match[1]}
@@ -316,7 +317,7 @@ const styledComponents = {
           contentEditable={edit}
         >
           {String(children).replace(/\n$/, "")}
-        </SyntaxHighlighter>
+        </SyntaxHighlighter> */}
       </div>
     ) : (
       <code

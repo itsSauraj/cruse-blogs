@@ -8,6 +8,7 @@ export const copyToClipboard = (text: string) => {
       () => {
         return null;
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (err) => {
         return null;
       },

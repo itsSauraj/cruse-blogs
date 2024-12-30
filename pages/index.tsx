@@ -2,10 +2,9 @@ import { Button } from "@nextui-org/button";
 import { Code } from "@nextui-org/code";
 import Link from "next/link";
 import { Snippet } from "@nextui-org/snippet";
+
 import { title } from "@/components/primitives";
-
 import DefaultLayout from "@/layouts/default";
-
 
 export default function IndexPage() {
   return (

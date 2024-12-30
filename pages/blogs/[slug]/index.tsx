@@ -16,20 +16,11 @@ import DefaultLayout from "@/layouts/default";
 import { getBlogsList } from "@/utils/blogs";
 import { extractHeadings } from "@/utils/functions";
 
-export async function getStaticPaths() {
-  const blogs = await getBlogsList();
-
-  const paths = blogs.map((blog) => ({
-    params: { slug: blog.slug },
-  }));
-
-  return {
-    paths,
-    fallback: true,
-  };
-}
-
-export async function getStaticProps({ params }: { params: { slug: string } }) {
+export async function getServerSideProps({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const blogs = await getBlogsList();
 
   const blog = blogs.find((b) => b.slug === params.slug); //TODO: fetch from database

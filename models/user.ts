@@ -39,7 +39,7 @@ UserSchema.pre(
     next,
   ) {
     if (!this.isModified("password") || !this.password) return next();
-    this.password = hashPassword(this.password);
+    this.password = (await hashPassword(this.password)) as string;
     next();
   },
 );

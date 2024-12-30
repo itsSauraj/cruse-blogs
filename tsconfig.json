@@ -35,7 +35,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/types/**/*.d.ts"
-, "lib/db.ts"  ],
+, "lib/db.ts", "auth.ts"  ],
   "exclude": [
     "node_modules"
   ]

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Alert, Button } from "@nextui-org/react";
 
 export default function RegisterAlert({ path }: { path: string }) {
-
   return (
     <div className="flex items-center justify-center w-full relative">
       <Alert

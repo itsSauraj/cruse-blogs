@@ -4,6 +4,9 @@ const nextConfig = {
   images: {
     domains: ['images.unsplash.com', 'www.creativefabrica.com'],
   },
+  experimental: {
+    urlImports: [''],
+  },
 }
 
 module.exports = nextConfig
