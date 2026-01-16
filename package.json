@@ -14,7 +14,7 @@
 		"@react-aria/visually-hidden": "3.8.12",
 		"@types/bcrypt": "^5.0.2",
 		"@types/mongoose": "^5.11.96",
-		"bcrypt": "^5.1.1",
+		"bcrypt": "^6.0.0",
 		"child_process": "^1.0.2",
 		"cjs": "^0.0.11",
 		"clsx": "2.1.1",
